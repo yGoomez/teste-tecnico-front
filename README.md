@@ -25,8 +25,13 @@ O objetivo principal é realizar uma tela onde irá acontecer o cadastro de uma 
 ## Sobre o Projeto
 O projeto envolve o desenvolvimento de uma tela principal e modal utilizando o Quasar Framework:
 1. **Tela de cadastro**: Inteface mostrando os cadastros.
-2. **Modal de cadastro**: Modal que será realizado o cadastro.
-3. **Modal de edição**: Modal que será utilizado para realizar a edição
+![image](https://github.com/user-attachments/assets/27432d2f-fcdf-446b-bc9b-b90dd23e6f71)
+
+3. **Modal de cadastro**: Modal que será realizado o cadastro.
+![image](https://github.com/user-attachments/assets/94c021f0-eceb-4646-b03d-78626922ca14)
+
+5. **Modal de edição**: Modal que será utilizado para realizar a edição
+![image](https://github.com/user-attachments/assets/97c1738e-ff2c-40bd-b09a-2c0ad4c0648e)
 
 # Tabela de Unidade de Medida
 | Campo       | Descrição                                      | Regras                                                             |
@@ -36,5 +41,3 @@ O projeto envolve o desenvolvimento de uma tela principal e modal utilizando o Q
 | sigla       | Abreviação da unidade de medida                | Caixa alta, unico e obgrigatorio                                   |
 | descrição   | Descrição completa da unidade de medida        | Caixa alta, obrigatorio e possivel repetir                         |
 | status      | Status da unidade de medida (ativo/inativo)    | Padrão é true, possivel false e quando falso não deve ser listado  |
-
-## Telas a serem seguidas
