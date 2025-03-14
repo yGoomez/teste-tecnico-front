@@ -1,43 +1,85 @@
-# Vaga para Desenvolvedor Front-End
+## 🎯 Desafio Técnico: Sistema de Cadastro de Unidades de Medida
+> Desenvolver uma interface intuitiva e responsiva para o cadastro de unidades de medida, garantindo uma excelente experiência de usuário.
 
-## Introdução
-Estamos à procura de um Desenvolvedor Front-End talentoso para se juntar à nossa equipe. Se você é apaixonado por criar interfaces de usuário incríveis e tem experiência com o Quasar Framework, queremos ouvir de você!
+---
 
-## Desafio:
-O objetivo principal é realizar uma tela onde irá acontecer o cadastro de uma unidade de medida.
-> Bonûs, utilizar o [Pinia](https://pinia.vuejs.org/) (gerenciador de estado global) para armazenar os dados, ele já está incluso no projeto.
+**Tecnologias:**  
+![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?logo=vue.js&logoColor=white) ![Pinia](https://img.shields.io/badge/-Pinia-FFD02F?logo=vue.js&logoColor=white) ![Quasar](https://img.shields.io/badge/-Quasar-1976D2?logo=quasar&logoColor=white)
 
-## Qualificações Necessárias
-- Proficiência em HTML, CSS e JavaScript.
-- Capacidade de criar interfaces de usuário responsivas e amigáveis.
-- Familiaridade com ferramentas de versionamento de código, como Git.
-- Vontade de aprender e pesquisas novas técnologias.
+## ⚙️ Stack Técnica Esperada
 
-## Responsabilidades
-- Desenvolver e manter interfaces de usuário utilizando o Quasar Framework.
-- Garantir a qualidade do código através de revisões e testes.
-- Participar de reuniões de equipe e contribuir com ideias para melhorar o produto.
+**Conhecimentos obrigatorios**  
+- [x] HTML5
+- [x] CSS3
+- [x] Javascript
+- [x] Logica de programação
+- [x] Raciocinio lógico 
 
-## Desejavel
-- Conhecimento com o Quasar Framework.
-- Conhecimento em Vue.js.
+**Diferenciais 🛠️**  
+- [x] Node.js
+- [x] Sequelize ORM
+- [x] PostgreSQL
+- [x] AWS  
+- [x] Git
+- [x] GitHub
+- [x] Linux
+- [x] Vue.js
+- [x] Quasar Framework
+- [x] Pinia (State Management)
 
-## Sobre o Projeto
-O projeto envolve o desenvolvimento de uma tela principal e modal utilizando o Quasar Framework:
-1. **Tela de cadastro**: Inteface mostrando os cadastros.
-![image](https://github.com/user-attachments/assets/44b0d748-8015-4dfe-852c-067cb346af7a)
+## 🏆 Critérios de Avaliação
 
-3. **Modal de cadastro**: Modal que será realizado o cadastro.
-![image](https://github.com/user-attachments/assets/ef33e15a-c2ca-4283-ab36-ae2157369cc4)
+| Categoria          | Detalhes                                  |
+|--------------------|-------------------------------------------|
+| **Interface**      | Responsividade • UX intuitiva             |
+| **Código**         | Clean Code • Componentização              |
+| **Estado**         | Uso eficiente do Pinia para gerenciamento |
+| **Extras**         | Testes                                    |
 
-5. **Modal de edição**: Modal que será utilizado para realizar a edição
-![image](https://github.com/user-attachments/assets/13b3c111-8eef-4600-b686-11482c7ee9dd)
 
-# Tabela de Unidade de Medida
-| Campo       | Descrição                                      | Regras                                                             |
-|-------------|------------------------------------------------|--------------------------------------------------------------------|
-| id          | Identificador único da unidade de medida       | Unico autoincrement, não é possivel alterar                        |
-| codigo_erp  | Código utilizado no sistema ERP                | alfanumerico, tamnho maximo de 5 caracteres não obrigatorio, unico |
-| sigla       | Abreviação da unidade de medida                | Caixa alta, unico e obgrigatorio                                   |
-| descrição   | Descrição completa da unidade de medida        | Caixa alta, obrigatorio e possivel repetir                         |
-| status      | Status da unidade de medida (ativo/inativo)    | Padrão é true, possivel false e quando falso não deve ser listado  |
+## 📋 Especificações Técnicas
+
+### Tabela de Unidades de Medida
+
+| Campo           | Regras                                      | Validações                    |
+|-----------------|---------------------------------------------|-------------------------------|
+| **id**          | Id • Imutável auto increment                | Gerado automaticamente        |
+| **codigo_erp**  | Único • 5 caracteres (opcional)             | Regex: `^[A-Z0-9]{0,5}$`     |
+| **sigla**       | Única • Obrigatória • 3 chars               | Exemplo: `KG`, `LTS`          |
+| **descrição**   | Obrigatória • 100 caracteres                | Capitalizada                  |
+| **status**      | Boolean (`true`=ativo)                      | Filtro automático quando `false` |
+
+
+
+## 🖼️ Protótipos de Referência
+
+| Tela Principal                  |
+|---------------------------------|
+| ![Listagem](https://github.com/user-attachments/assets/44b0d748-8015-4dfe-852c-067cb346af7a) |
+
+| Modal de Cadastro               |
+|---------------------------------|
+| ![Cadastro](https://github.com/user-attachments/assets/ef33e15a-c2ca-4283-ab36-ae2157369cc4) |
+
+
+## 💡 Dicas Valiosas
+
+1. Use **Pinia** para gerenciar o estado global das unidades
+2. Implemente **validações em tempo real** nos formulários
+3. Componentize ao máximo para reutilização de código
+
+## 📩 Processo de Revisão
+
+- Implementação dos requisitos obrigatórios
+- Organização do código
+- Tratamento de edge cases
+- Experiência do usuário
+
+## 🚀 Submissão 
+1. **Fork do Repositório**
+2. **Realize suas modificações**
+3. **Abra um Pull Request (PR)**
+
+## ❓ Dúvidas ou Suporte
+
+Se você tiver dúvidas ou precisar de ajuda, sinta-se à vontade para entrar em contato com nosso time ou abrindo uma issue marcando @GrupoRaotes/webgr-head.
