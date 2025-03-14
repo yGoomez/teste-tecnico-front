@@ -4,7 +4,7 @@
 ---
 
 **Tecnologias:**  
-![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?logo=vue.js&logoColor=white) ![Pinia](https://img.shields.io/badge/-Pinia-FFD02F?logo=vue.js&logoColor=white) ![Quasar](https://img.shields.io/badge/-Quasar-1976D2?logo=quasar&logoColor=white)
+![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?logo=vue.js&logoColor=white) ![Quasar](https://img.shields.io/badge/-Quasar-1976D2?logo=quasar&logoColor=white)
 
 ## ⚙️ Stack Técnica Esperada
 
@@ -25,7 +25,7 @@
 - [x] Linux
 - [x] Vue.js
 - [x] Quasar Framework
-- [x] Pinia (State Management)
+- [x] Vuex (State Management)
 
 ## 🏆 Critérios de Avaliação
 
@@ -33,7 +33,7 @@
 |--------------------|-------------------------------------------|
 | **Interface**      | Responsividade • UX intuitiva             |
 | **Código**         | Clean Code • Componentização              |
-| **Estado**         | Uso eficiente do Pinia para gerenciamento |
+| **Estado**         | Uso eficiente do Vuex para gerenciamento |
 | **Extras**         | Testes                                    |
 
 
@@ -64,7 +64,7 @@
 
 ## 💡 Dicas Valiosas
 
-1. Use **Pinia** para gerenciar o estado global das unidades
+1. Use **Vuex** para gerenciar o estado global das unidades
 2. Implemente **validações em tempo real** nos formulários
 3. Componentize ao máximo para reutilização de código
 
@@ -79,6 +79,11 @@
 1. **Fork do Repositório**
 2. **Realize suas modificações**
 3. **Abra um Pull Request (PR)**
+
+## 📖 Documentações
+- [x] [Quasar Framework](https://quasar.dev/)
+- [x] [Vuejs](https://vuejs.org/)
+- [x] [Vuex](https://vuex.vuejs.org/)
 
 ## ❓ Dúvidas ou Suporte
 
