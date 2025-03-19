@@ -1,149 +1,363 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Roates</title>
+<html lang="pt-BR">
+<head>
+  <title>Roates</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Tabela de Unidades de Medida">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta charset="utf-8">
-    <meta name="description" content="<%= productDescription %>">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
-
-    <link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
-    <link rel="icon" type="image/ico" href="favicon.ico">
-    <link rel="stylesheet" href="index.css">
-
-  </head>
-  <body>
+  <link rel="stylesheet" href="index.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
     <header>
-        
       <div class="Tabela-tb">
-          <button class="voltar">
-              <a href="home.html" class="voltar">
-                  <img class="voltar" src="voltar.webp" alt="">
-              </a>
-          </button>
-          <h2>TABELA DE UNIDADES DE MEDIDA</h2>
+        <button class="voltar">
+          <a href="home.html" class="voltar">
+            <img class="voltar" src="voltar.webp" alt="Voltar">
+          </a>
+        </button>
 
+        <h2>TABELA DE UNIDADES DE MEDIDA</h2>
 
-          <input type="search" id="searchInput" placeholder="Buscar..." oninput="filterUnits()">
+        <input type="search" v-model="filtro" placeholder="Buscar...">
+        <button class="button-busca" @click="buscarUnidades">
+          <i class="buscar-botao"></i> Buscar
+        </button>
 
-          <button class="button-busca" type="submit">
-              <i class="fa fa-search"></i>
-              Buscar
-          </button>
+        <button class="cadastrar" @click="abrirModal">Cadastrar Novo</button>
 
-          <button class="button-cadastro" type="button" class="btn btn-primary" data-toggle="modal"
-              data-target="#exampleModal">
-              Cadastrar Novo
-          </button>
+        <div v-if="mostrarModal" class="modal">
+          <div class="modal-content">
+            <span class="close" @click="fecharModal">&times;</span>
+            <h2>Adicionar Nova Unidade de Medida</h2>
+            
+            <input class="cod-erp"  type="text" v-model="novaUnidade.codErp" placeholder="Cod ERP">
+            <input class="sigla" type="text" v-model="novaUnidade.sigla" placeholder="Sigla">
+            <input class="desc" type="text" v-model="novaUnidade.descricao" placeholder="Descrição">
+            <button @click="cadastrarUnidade">Cadastrar</button>
+        </div>
+       
+          
+        </div>
 
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Adicionar Uma Nova Unidade De Medida</h5>
-                          <button type="button" class="close CLS " data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body">
-                          <input class="cod-erp" type="text" id="codERP" placeholder="Cod ERP">
-                          <input class="sigla" type="text" id="sigla" placeholder="Sigla *">
-                          <input class="desc" type="text" id="desc" placeholder="Descrição *">
-                      </div>
-                      <div class="modal-footer botao">
-                          <button type="button" class="btn btn-primary" onclick="addUnit()">Cadastrar</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <table id="unitsTable">
-              <thead>
-                  <tr>
-                      <th>ID</th>
-                      <th>Cód. ERP</th>
-                      <th>Sigla</th>
-                      <th>Descrição</th>
-                      <th>Status</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <!-- Linhas de unidades serão inseridas aqui dinamicamente -->
-              </tbody>
-          </table>
+        <table id="unitsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cód. ERP</th>
+              <th>Sigla</th>
+              <th>Descrição</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(unidade, index) in unidadesFiltradas" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ unidade.codErp }}</td>
+              <td>{{ unidade.sigla }}</td>
+              <td>{{ unidade.descricao }}</td>
+              <td>Ativo</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-  </header>
+    </header>
+  </div>
+
   <script>
-    // Dados iniciais
-     const units = [
-    //     { id: '', codERP: '', sigla: '', desc: '', status: '' },
-    //     { id: '', codERP: '', sigla: '', desc: '', status: '' },
-    ];
-
-    // Função para filtrar as unidades
-    function filterUnits() {
-        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-        const filteredUnits = units.filter(unit => {
-            return (
-                unit.id.toString().includes(searchQuery) || // Verifica o ID
-                unit.codERP.toLowerCase().includes(searchQuery) || // Verifica o Código ERP
-                unit.sigla.toLowerCase().includes(searchQuery) || // Verifica a Sigla
-                unit.desc.toLowerCase().includes(searchQuery) // Verifica a Descrição
-            );
-        });
-        renderUnits(filteredUnits);
-    }
-
-    // Função para renderizar as unidades na tabela
-    function renderUnits(unitsToRender) {
-        const tableBody = document.getElementById('unitsTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = ''; // Limpar a tabela antes de adicionar as linhas
-
-        unitsToRender.forEach(unit => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${unit.id}</td>
-                <td>${unit.codERP}</td>
-                <td>${unit.sigla}</td>
-                <td>${unit.desc}</td>
-                <td>${unit.status}</td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    // Função para adicionar uma nova unidade
-    function addUnit() {
-        const codERP = document.getElementById('codERP').value;
-        const sigla = document.getElementById('sigla').value;
-        const desc = document.getElementById('desc').value;
-
-        if (codERP && sigla && desc) {
-            const newUnit = {
-                id: units.length + 1,
-                codERP,
-                sigla,
-                desc,
-                status: 'Ativo'
-            };
-            units.push(newUnit);
-            renderUnits(units); // Re-renderizar a tabela
-            $('#exampleModal').modal('hide'); // Fechar o modal
-        } else {
-            alert('Todos os campos são obrigatórios!');
+    const app = Vue.createApp({
+      data() {
+        return {
+          mostrarModal: false,
+          filtro: "",
+          novaUnidade: { codErp: "", sigla: "", descricao: "" },
+          unidades: []
+        };
+      },
+      computed: {
+        unidadesFiltradas() {
+          return this.unidades.filter(unidade =>
+            unidade.codErp.includes(this.filtro) ||
+            unidade.sigla.includes(this.filtro) ||
+            unidade.descricao.includes(this.filtro)
+          );
         }
-    }
+      },
+      methods: {
+        abrirModal() {
+          this.mostrarModal = true;
+        },
+        fecharModal() {
+          this.mostrarModal = false;
+        },
+        cadastrarUnidade() {
+          if (this.novaUnidade.codErp && this.novaUnidade.sigla && this.novaUnidade.descricao) {
+            this.unidades.push({ ...this.novaUnidade });
+            this.novaUnidade = { codErp: "", sigla: "", descricao: "" };
+            this.fecharModal();
+          } else {
+            alert("Preencha todos os campos!");
+          }
+        },
+        buscarUnidades() {
+          console.log("Filtrando: ", this.filtro);
+        }
+      }
+    });
 
-    // Inicializar a tabela com os dados
-    renderUnits(units);
-</script>
+    app.mount("#app");
+  </script>
 
-  </body>
+  <style>
+    
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    margin: auto;
+    padding-left: 7em;
+    padding-top: 2em;
+}
+
+.Tabela-tb {
+    max-width: 200em;
+    margin: auto;
+    background: white;
+    padding: 1em;
+    border-radius: 0.7em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2em;
+}
+
+th, td {
+    padding: 1em;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #52b1ff;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+input {
+    width: 52em;
+    height: 2em;
+    border-radius: 0.7em;
+    
+}
+
+.button-busca {
+    width: 7em;
+    height: 2em;
+    border-radius: 0.7em;
+}
+
+.button-cadastro {
+    width: 25em;
+    height: 2em;
+    border-radius: 0.7em;
+      
+}
+
+.CLS{
+ width:2em ;
+ margin-left: 10%;
+ border: none;
+ background-color: #52b1ff;
+ 
+}
+
+.cod-erp{
+ width:14.4em ;
+ border:none;
+ background-color: #dddddd;
+}
+
+.sigla{
+width: 14.4em;
+border: none;
+background-color: #dddddd;
+}
+
+.desc{
+width: 29.1em;
+border: none;
+background-color: #dddddd;
+}
+
+.modal-body{
+    padding: 2%;
+    padding-bottom: 2%;
+    
+}
+
+.modal-header{
+    background-color:#52b1ff ;
+    
+}
+
+.botao{
+    display: flex;
+    justify-content: center;
+
+}
+
+.voltar{
+    display: flex;
+    align-items: self-start;
+    width: 2em;
+    height: 2em;
+    border: none;
+    text-decoration: none;
+    background-color: white;
+}
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+    
+    .modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  background-color: #3498db; /* Azul */
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  text-align: center;
+  position: relative;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.modal-header .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #ddd;
+  font-size: 14px;
+  width: 100%;
+}
+
+.modal-footer {
+  padding: 15px;
+  text-align: center;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.cod-erp{
+ width:14.4em ;
+ border:none;
+ background-color: #dddddd;
+}
+
+.sigla{
+width: 14.4em;
+border: none;
+background-color: #dddddd;
+}
+
+.desc{
+width: 29.1em;
+border: none;
+background-color: #dddddd;
+}
+
+.cadastrar{
+    border-radius: 0.9em;
+}
+
+
+
+  </style>
+
+</body>
 </html>
