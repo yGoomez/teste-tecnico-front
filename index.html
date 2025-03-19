@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= productName %></title>
+    <title>Roates</title>
 
     <meta charset="utf-8">
     <meta name="description" content="<%= productDescription %>">
@@ -14,8 +14,136 @@
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
     <link rel="icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="index.css">
+
   </head>
   <body>
-    <!-- quasar:entry-point -->
+    <header>
+        
+      <div class="Tabela-tb">
+          <button class="voltar">
+              <a href="home.html" class="voltar">
+                  <img class="voltar" src="voltar.webp" alt="">
+              </a>
+          </button>
+          <h2>TABELA DE UNIDADES DE MEDIDA</h2>
+
+
+          <input type="search" id="searchInput" placeholder="Buscar..." oninput="filterUnits()">
+
+          <button class="button-busca" type="submit">
+              <i class="fa fa-search"></i>
+              Buscar
+          </button>
+
+          <button class="button-cadastro" type="button" class="btn btn-primary" data-toggle="modal"
+              data-target="#exampleModal">
+              Cadastrar Novo
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Adicionar Uma Nova Unidade De Medida</h5>
+                          <button type="button" class="close CLS " data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          <input class="cod-erp" type="text" id="codERP" placeholder="Cod ERP">
+                          <input class="sigla" type="text" id="sigla" placeholder="Sigla *">
+                          <input class="desc" type="text" id="desc" placeholder="Descrição *">
+                      </div>
+                      <div class="modal-footer botao">
+                          <button type="button" class="btn btn-primary" onclick="addUnit()">Cadastrar</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <table id="unitsTable">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Cód. ERP</th>
+                      <th>Sigla</th>
+                      <th>Descrição</th>
+                      <th>Status</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- Linhas de unidades serão inseridas aqui dinamicamente -->
+              </tbody>
+          </table>
+      </div>
+  </header>
+  <script>
+    // Dados iniciais
+     const units = [
+    //     { id: '', codERP: '', sigla: '', desc: '', status: '' },
+    //     { id: '', codERP: '', sigla: '', desc: '', status: '' },
+    ];
+
+    // Função para filtrar as unidades
+    function filterUnits() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const filteredUnits = units.filter(unit => {
+            return (
+                unit.id.toString().includes(searchQuery) || // Verifica o ID
+                unit.codERP.toLowerCase().includes(searchQuery) || // Verifica o Código ERP
+                unit.sigla.toLowerCase().includes(searchQuery) || // Verifica a Sigla
+                unit.desc.toLowerCase().includes(searchQuery) // Verifica a Descrição
+            );
+        });
+        renderUnits(filteredUnits);
+    }
+
+    // Função para renderizar as unidades na tabela
+    function renderUnits(unitsToRender) {
+        const tableBody = document.getElementById('unitsTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Limpar a tabela antes de adicionar as linhas
+
+        unitsToRender.forEach(unit => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${unit.id}</td>
+                <td>${unit.codERP}</td>
+                <td>${unit.sigla}</td>
+                <td>${unit.desc}</td>
+                <td>${unit.status}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Função para adicionar uma nova unidade
+    function addUnit() {
+        const codERP = document.getElementById('codERP').value;
+        const sigla = document.getElementById('sigla').value;
+        const desc = document.getElementById('desc').value;
+
+        if (codERP && sigla && desc) {
+            const newUnit = {
+                id: units.length + 1,
+                codERP,
+                sigla,
+                desc,
+                status: 'Ativo'
+            };
+            units.push(newUnit);
+            renderUnits(units); // Re-renderizar a tabela
+            $('#exampleModal').modal('hide'); // Fechar o modal
+        } else {
+            alert('Todos os campos são obrigatórios!');
+        }
+    }
+
+    // Inicializar a tabela com os dados
+    renderUnits(units);
+</script>
+
   </body>
 </html>
